@@ -1,2 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using Spectre.Console;
+using Flashcards;
+
+AnsiConsole.MarkupLine("[green]Welcome to Flashcards!!![/]");
+
+App.StartApp();
