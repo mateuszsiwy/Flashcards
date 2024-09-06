@@ -6,18 +6,28 @@ using System.Threading.Tasks;
 
 namespace DataModels
 {
-    public class Flashcards
+    public class Flashcard
     {
-        int FlashcardId { get; set; }
-        string Front { get; set; }
-        string Back { get; set; }
-        int StackId { get; set; }
+        public int FlashcardId { get; set; }
+        public string Front { get; set; }
+        public string Back { get; set; }
+        public int StackId { get; set; }
+        public Stack Stack { get; set; }
     }
 
     public class Stack
     {
-        int StackId { get; set; }  
-        string StackName { get; set; }
+        public int StackId { get; set; }  
+        public string StackName { get; set; }
+        public ICollection<Flashcard> Flashcards { get; set; }
+    }
+
+    public class FlashcardDTO
+    {
+        public int FlashcardId { get; set; }
+        public string Front { get; set; }
+        public string Back { get; set; }
+
     }
 
 }
