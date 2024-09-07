@@ -23,9 +23,8 @@ namespace Flashcards
         {
             string menuText = "0 - Exit\n" +
                               "1 - Manage stacks\n" +
-                              "2 - Manage flashcards\n" +
-                              "3 - Study\n" +
-                              "4 - View study session data";
+                              "2 - Study\n" +
+                              "3 - View study session data";
 
             var panel = new Panel(menuText) { Padding = new Padding(1, 1, 1, 1) };
             AnsiConsole.Write(panel);
@@ -45,8 +44,6 @@ namespace Flashcards
                     
                     break;
                 case "3":
-                    break;
-                case "4":
                     break;
                 default:
                     Console.WriteLine("Please enter a valid option!");
@@ -117,7 +114,8 @@ namespace Flashcards
                     "a - view x amount of flashcards in stack\n" +
                     "c - create a flashcard in current stack\n" +
                     "e - edit a flashcard\n" +
-                    "d - delete a flashcard";
+                    "d - delete a flashcard\n" +
+                    "s - delete current stack (all of the flashcards in the stack will disappear";
 
                 var panel = new Panel(flashcardMenu) { Padding = new Padding(1, 1, 1, 1) };
                 AnsiConsole.Write(panel);
@@ -150,6 +148,9 @@ namespace Flashcards
                     break;
                 case "d":
                     DeleteFlashcard(currentStack);
+                    break;
+                case "s":
+                    DeleteStack(currentStack);
                     break;
                 default:
                     Console.WriteLine("Please enter a valid option!");
@@ -228,7 +229,7 @@ namespace Flashcards
                 {
                     string input = Console.ReadLine();
                     int id = int.Parse(input);
-                    DeleteFlash(id, currentStack);
+                    service.DeleteFlashcard(id, currentStack);
                     break;
                 }
                 catch (Exception ex)
@@ -236,6 +237,10 @@ namespace Flashcards
                     Console.WriteLine("Invalid number");
                 }
             }
+        }
+        private static void DeleteStack(string currentString)
+        {
+            service.DeleteStack(currentString);
         }
     }
 }

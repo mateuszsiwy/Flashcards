@@ -7,6 +7,8 @@ using DataModels;
 using System.Configuration;
 using Microsoft.Data.SqlClient;
 using Dapper;
+using static System.Net.Mime.MediaTypeNames;
+using System.Diagnostics;
 
 public class FlashcardsService
 {
@@ -119,6 +121,51 @@ public class FlashcardsService
                 string updateFlashcard = @"UPDATE flashcards SET Front = @Front, Back = @Back WHERE FlashcardId = @FlashcardId ";
                 var parameters = new { Front = front, Back = back, FlashcardId = id };
                 connection.Execute(updateFlashcard, parameters);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.ToString());
+
+        }
+    }
+
+    public void DeleteFlashcard(int id, string stackName)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                string deleteFlashcard = @"DELETE FROM flashcards WHERE FlashcardId = @FlashcardId";
+                var parameters = new { FlashcardId = id };
+                connection.Execute(deleteFlashcard, parameters);
+                Console.WriteLine("Flashcard deleted succesfully");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.ToString());
+
+        }
+    }
+    public void DeleteStack(string stackName)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                string getStackId = @"SELECT StackId from stacks WHERE StackName = @stackName";
+                int? id = connection.QuerySingleOrDefault<int?>(getStackId, new { StackName = stackName });
+
+                string deleteFlashcardsInStack = @"DELETE FROM flashcards WHERE StackId = @StackId";
+                var parameters = new {StackId =  id};
+                connection.Execute(deleteFlashcardsInStack, parameters);
+
+                string deleteStack = @"DELETE FROM stacks WHERE StackId = @StackId";
+                connection.Execute(deleteStack, parameters);
+                Console.WriteLine("\nStack deleted!\n");
             }
         }
         catch (Exception ex)
