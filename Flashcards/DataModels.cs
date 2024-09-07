@@ -22,6 +22,15 @@ namespace DataModels
         public ICollection<Flashcard> Flashcards { get; set; }
     }
 
+    public class StudySession
+    {
+        public int SessionId { get; set; }
+        public string Date { get; set; }
+        public int Score { get; set; }
+        public string StackName { get; set; }
+
+    }
+
     public class FlashcardDTO
     {
         public int FlashcardId { get; set; }

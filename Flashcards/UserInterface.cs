@@ -41,9 +41,10 @@ namespace Flashcards
                     ManageStacks();
                     break;
                 case "2":
-                    
+                    StudySession.StartSession();
                     break;
                 case "3":
+                    StudySession.DisplaySessions();
                     break;
                 default:
                     Console.WriteLine("Please enter a valid option!");
@@ -75,7 +76,7 @@ namespace Flashcards
             }
         }
 
-        private static void DisplayStackNames(List<string> stackNames)
+        public static void DisplayStackNames(List<string> stackNames)
         {
             var table = new Table();
             table.AddColumn("Stack name");
@@ -241,6 +242,7 @@ namespace Flashcards
         private static void DeleteStack(string currentString)
         {
             service.DeleteStack(currentString);
+            StartApp();
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using Dapper;
 using static System.Net.Mime.MediaTypeNames;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
 public class FlashcardsService
 {
@@ -163,6 +164,10 @@ public class FlashcardsService
                 var parameters = new {StackId =  id};
                 connection.Execute(deleteFlashcardsInStack, parameters);
 
+                string deleteSessions = @"DELETE FROM sessions WHERE StackId = @StackId";
+                parameters = new { StackId = id };
+                connection.Execute(deleteSessions, parameters);
+
                 string deleteStack = @"DELETE FROM stacks WHERE StackId = @StackId";
                 connection.Execute(deleteStack, parameters);
                 Console.WriteLine("\nStack deleted!\n");
@@ -172,6 +177,48 @@ public class FlashcardsService
         {
             Console.Write(ex.ToString());
 
+        }
+    }
+
+    public void AddSession(int score, string stackName)
+    {
+        try
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+
+                string getStackId = @"SELECT StackId from stacks WHERE StackName = @stackName";
+                int? id = connection.QuerySingleOrDefault<int?>(getStackId, new { StackName = stackName });
+
+                string addSession = @"INSERT INTO sessions (Date, Score, StackId, StackName) VALUES (@Date, @Score, @StackId, @StackName)";
+                var parameters = new {Date = DateTime.Now.ToString(), Score = score, StackId = id, StackName = stackName};
+                connection.Execute(addSession, parameters);
+                Console.WriteLine($"Added session to database");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.ToString());
+
+        }
+    }
+    public List<StudySession> GetSessions()
+    {
+        try
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string getSessions = @"SELECT * FROM sessions";
+                List<StudySession> sessions = connection.Query<StudySession>(getSessions).ToList();
+
+                return sessions;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex.ToString());
+            return null;
         }
     }
 

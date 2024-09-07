@@ -40,8 +40,19 @@ namespace Flashcards
                         "StackId INT," +
                         "FOREIGN KEY (StackId) REFERENCES stacks(StackId)) " +
                         "END";
+
+                    string createSessionTable = @"IF NOT EXISTS" + "(SELECT * FROM sysobjects WHERE name = 'sessions') BEGIN " +
+                        "CREATE TABLE sessions (" +
+                        "SessionId INT PRIMARY KEY IDENTITY(1,1)," +
+                        "Date NVARCHAR(100)," +
+                        "Score INT," +
+                        "StackId INT," +
+                        "StackName NVARCHAR(50)," +
+                        "FOREIGN KEY (StackId) REFERENCES stacks(StackId)) " +
+                        "END";
                     connection.Execute(createStackTable);
                     connection.Execute(createFlashcardTable);
+                    connection.Execute(createSessionTable); 
                 }
                     
             }
