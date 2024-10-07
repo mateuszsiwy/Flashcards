@@ -6,7 +6,6 @@ The **Flashcards** application allows users to create and manage flashcards orga
 ## Features
 - **Stacks and Flashcards**: Users can create flashcard stacks, with each stack containing multiple flashcards. Stacks have unique names, and deleting a stack also removes its associated flashcards.
 - **Study Sessions**: Users can engage in study sessions with the stacks they create. Study sessions track the date and the user's score. All study sessions are saved and cannot be modified or deleted after they are created.
-- **Flashcard ID Handling**: When displaying flashcards to the user, IDs are renumbered sequentially starting from 1, with no gaps between them, even after deletions.
 - **Data Management**: The project uses foreign keys to link flashcards to their respective stacks, and study sessions to stacks. Deleting a stack automatically removes its flashcards and study sessions.
 
 ## Technologies
