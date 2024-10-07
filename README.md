@@ -11,7 +11,7 @@ The **Flashcards** application allows users to create and manage flashcards orga
 
 ## Technologies
 - **Backend**: .NET (C#)
-- **Database**: SQL Server or SQLite (with foreign key constraints)
+- **Database**: SQL Server 
 - **Data Transfer Objects (DTOs)**: Used to manage how data is presented to users (e.g., flashcards are shown without their stack IDs).
 - **Entity Framework Core** (optional) or **raw SQL** for data persistence.
 
